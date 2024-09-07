@@ -10,7 +10,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
 
-const LoginPage = () => {
+const RegisterPage = () => {
+  const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,6 +21,7 @@ const LoginPage = () => {
       return;
     }
 
+    console.log('Name:', userName);
     console.log('Email:', email);
     console.log('Password:', password);
 
@@ -27,6 +29,7 @@ const LoginPage = () => {
 
     setEmail('');
     setPassword('');
+    setUserName('');
   };
 
   return (
@@ -65,6 +68,13 @@ const LoginPage = () => {
         <View style={styles.inputController}>
           <TextInput
             style={styles.input}
+            placeholder="Nom d'utilisateur"
+            placeholderTextColor="#999"
+            value={userName}
+            onChangeText={setUserName}
+          />
+          <TextInput
+            style={styles.input}
             placeholder="Adresse email"
             placeholderTextColor="#999"
             value={email}
@@ -85,15 +95,15 @@ const LoginPage = () => {
         </View>
 
         <Pressable style={styles.button} onPress={loginHandler}>
-          <Text style={styles.buttonText}>Se connecter</Text>
+          <Text style={styles.buttonText}>S'incrire</Text>
         </Pressable>
         <Link
-          href="/registerPage"
+          href="/"
           style={[styles.button, styles.signUpButton]}
           onPress={loginHandler}
         >
           <Text style={[styles.buttonText, styles.signUpButtonText]}>
-            Inscription
+            Se connecter
           </Text>
         </Link>
       </SafeAreaView>
@@ -179,4 +189,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginPage;
+export default RegisterPage;
