@@ -10,7 +10,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
 
-const LoginPage = () => {
+const RegisterPage = () => {
+  const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,6 +21,7 @@ const LoginPage = () => {
       return;
     }
 
+    console.log('Name:', userName);
     console.log('Email:', email);
     console.log('Password:', password);
 
@@ -27,6 +29,7 @@ const LoginPage = () => {
 
     setEmail('');
     setPassword('');
+    setUserName('');
   };
 
   return (
@@ -65,6 +68,13 @@ const LoginPage = () => {
         <View style={styles.inputController}>
           <TextInput
             style={styles.input}
+            placeholder="Nom d'utilisateur"
+            placeholderTextColor="#999"
+            value={userName}
+            onChangeText={setUserName}
+          />
+          <TextInput
+            style={styles.input}
             placeholder="Adresse email"
             placeholderTextColor="#999"
             value={email}
@@ -85,17 +95,14 @@ const LoginPage = () => {
         </View>
 
         <Pressable style={styles.button} onPress={loginHandler}>
-          <Text style={styles.buttonText}>Se connecter</Text>
+          <Text style={styles.buttonText}>S'incrire</Text>
         </Pressable>
-        <Link
-          href="/registerPage"
-          style={[styles.button, styles.signUpButton]}
-          onPress={loginHandler}
-        >
-          <Text style={[styles.buttonText, styles.signUpButtonText]}>
-            Inscription
-          </Text>
-        </Link>
+        <View style={styles.loginContainer}>
+          <Text>Déjà membre ?</Text>
+          <Link href="/" style={styles.signUpButton}>
+            Se connecter ici
+          </Link>
+        </View>
       </SafeAreaView>
     </SafeAreaView>
   );
@@ -118,7 +125,6 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: 'contain',
   },
-
   formContainer: {
     width: '100%',
     gap: 20,
@@ -155,11 +161,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#4FAE5A',
     width: '100%',
     height: 40,
     borderRadius: 5,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loginContainer: {
+    flexDirection: 'row',
+    display: 'flex',
+    gap: 3,
     justifyContent: 'center',
   },
   buttonText: {
@@ -168,15 +180,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   signUpButton: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#4CAF50',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  signUpButtonText: {
-    color: '#4CAF50',
+    color: '#4FAE5A',
   },
 });
 
-export default LoginPage;
+export default RegisterPage;

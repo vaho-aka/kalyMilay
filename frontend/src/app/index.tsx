@@ -10,8 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
 
-const RegisterPage = () => {
-  const [userName, setUserName] = useState('');
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,7 +20,6 @@ const RegisterPage = () => {
       return;
     }
 
-    console.log('Name:', userName);
     console.log('Email:', email);
     console.log('Password:', password);
 
@@ -29,7 +27,6 @@ const RegisterPage = () => {
 
     setEmail('');
     setPassword('');
-    setUserName('');
   };
 
   return (
@@ -68,13 +65,6 @@ const RegisterPage = () => {
         <View style={styles.inputController}>
           <TextInput
             style={styles.input}
-            placeholder="Nom d'utilisateur"
-            placeholderTextColor="#999"
-            value={userName}
-            onChangeText={setUserName}
-          />
-          <TextInput
-            style={styles.input}
             placeholder="Adresse email"
             placeholderTextColor="#999"
             value={email}
@@ -95,15 +85,11 @@ const RegisterPage = () => {
         </View>
 
         <Pressable style={styles.button} onPress={loginHandler}>
-          <Text style={styles.buttonText}>S'incrire</Text>
+          <Text style={styles.buttonText}>Se connecter</Text>
         </Pressable>
-        <Link
-          href="/"
-          style={[styles.button, styles.signUpButton]}
-          onPress={loginHandler}
-        >
+        <Link href="/register" style={[styles.button, styles.signUpButton]}>
           <Text style={[styles.buttonText, styles.signUpButtonText]}>
-            Se connecter
+            Inscription
           </Text>
         </Link>
       </SafeAreaView>
@@ -165,12 +151,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#4FAE5A',
     width: '100%',
-    height: 40,
     borderRadius: 5,
+    paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
@@ -180,13 +167,13 @@ const styles = StyleSheet.create({
   signUpButton: {
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#4CAF50',
+    borderColor: '#4FAE5A',
     alignItems: 'center',
     justifyContent: 'center',
   },
   signUpButtonText: {
-    color: '#4CAF50',
+    color: '#4FAE5A',
   },
 });
 
-export default RegisterPage;
+export default LoginPage;
