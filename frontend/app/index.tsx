@@ -146,11 +146,12 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#4FAE5A',
     width: '100%',
-    borderRadius: 5,
+    borderRadius: 10,
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
+    height: 50,
   },
   buttonText: {
     color: '#FFFFFF',
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
   },
   signUpButton: {
     backgroundColor: '#FFFFFF',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#4FAE5A',
     alignItems: 'center',
     justifyContent: 'center',
