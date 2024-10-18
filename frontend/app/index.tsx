@@ -1,29 +1,25 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
+import { Image } from 'expo-image';
+
+const PlaceholderImage = require('@/assets/images/logo.png');
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const loginHandler = () => {
-    if (email.trim() === '' || password.trim() === '') {
-      console.log('Erreur : ', 'Veuillez remplir tous les champs');
-      return;
-    }
+    // if (email.trim() === '' || password.trim() === '') {
+    //   console.log('Erreur : ', 'Veuillez remplir tous les champs');
+    //   return;
+    // }
 
     console.log('Email:', email);
     console.log('Password:', password);
 
-    router.replace('/home');
+    router.navigate('/(tabs)/');
 
     setEmail('');
     setPassword('');
@@ -32,10 +28,7 @@ const LoginPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image
-          source={require('@/assets/images/Logo.png')}
-          style={styles.logo}
-        />
+        <Image source={PlaceholderImage} style={styles.logo} />
       </View>
 
       <SafeAreaView style={styles.formContainer}>

@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
+import { Image } from 'expo-image';
+
+const PlaceholderImage = require('@/assets/images/logo.png');
 
 const RegisterPage = () => {
   const [userName, setUserName] = useState('');
@@ -25,7 +21,7 @@ const RegisterPage = () => {
     console.log('Email:', email);
     console.log('Password:', password);
 
-    router.replace('/home');
+    router.replace('/');
 
     setEmail('');
     setPassword('');
@@ -35,10 +31,7 @@ const RegisterPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image
-          source={require('@/assets/images/Logo.png')}
-          style={styles.logo}
-        />
+        <Image source={PlaceholderImage} style={styles.logo} />
       </View>
 
       <SafeAreaView style={styles.formContainer}>
