@@ -3,6 +3,7 @@ import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
 import { Image } from 'expo-image';
+import MainButton from '@/components/MainButton';
 
 const PlaceholderImage = require('@/assets/images/logo.png');
 
@@ -77,13 +78,9 @@ const LoginPage = () => {
           />
         </View>
 
-        <Pressable style={styles.button} onPress={loginHandler}>
-          <Text style={styles.buttonText}>Se connecter</Text>
-        </Pressable>
-        <Link href="/register" style={[styles.button, styles.signUpButton]}>
-          <Text style={[styles.buttonText, styles.signUpButtonText]}>
-            Inscription
-          </Text>
+        <MainButton onPressHandler={loginHandler} text="Se connecter" />
+        <Link href="/register" style={styles.signUpButton}>
+          Inscription
         </Link>
       </SafeAreaView>
     </SafeAreaView>
@@ -143,30 +140,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 15,
   },
-  button: {
-    backgroundColor: '#4FAE5A',
-    width: '100%',
-    borderRadius: 10,
-    paddingVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    height: 50,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   signUpButton: {
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderColor: '#4FAE5A',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  signUpButtonText: {
+    borderRadius: 10,
+    padding: 13,
+    textAlign: 'center',
     color: '#4FAE5A',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 
