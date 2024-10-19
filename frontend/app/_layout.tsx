@@ -8,7 +8,14 @@ export default function RootLayout() {
       <StatusBar barStyle="dark-content" />
       <Stack>
         <Stack.Screen
-          name="index"
+          name="(tabs)"
+          options={{
+            headerShown: false,
+            headerLeft: () => <></>,
+          }}
+        />
+        <Stack.Screen
+          name="login"
           options={{
             headerShown: false,
             headerLeft: () => <></>,
@@ -16,13 +23,6 @@ export default function RootLayout() {
         />
         <Stack.Screen
           name="register"
-          options={{
-            headerShown: false,
-            headerLeft: () => <></>,
-          }}
-        />
-        <Stack.Screen
-          name="(tabs)"
           options={{
             headerShown: false,
             headerLeft: () => <></>,

@@ -3,6 +3,7 @@ import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
 import { Image } from 'expo-image';
+import MainButton from '@/components/MainButton';
 
 const PlaceholderImage = require('@/assets/images/logo.png');
 
@@ -11,11 +12,11 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const loginHandler = () => {
-    if (email.trim() === '' || password.trim() === '') {
-      console.log('Erreur : ', 'Veuillez remplir tous les champs');
-      return;
-    }
+  const registerHandler = () => {
+    // if (email.trim() === '' || password.trim() === '') {
+    //   console.log('Erreur : ', 'Veuillez remplir tous les champs');
+    //   return;
+    // }
 
     console.log('Name:', userName);
     console.log('Email:', email);
@@ -35,29 +36,6 @@ const RegisterPage = () => {
       </View>
 
       <SafeAreaView style={styles.formContainer}>
-        {/* <View style={styles.socialContainer}>
-          <Pressable style={styles.socialButton}>
-            <View style={styles.socialButtonContainer}>
-              <Text>Continue avec</Text>
-              <Text style={styles.socialButtonText}>Email</Text>
-            </View>
-          </Pressable>
-
-          <Pressable style={[styles.socialButton]}>
-            <View style={styles.socialButtonContainer}>
-              <Text>Continue avec</Text>
-              <Text style={styles.socialButtonText}>Facebook</Text>
-            </View>
-          </Pressable>
-
-          <Pressable style={[styles.socialButton]}>
-            <View style={styles.socialButtonContainer}>
-              <Text>Continue avec</Text>
-              <Text style={styles.socialButtonText}>Google</Text>
-            </View>
-          </Pressable>
-        </View> */}
-
         <View style={styles.inputController}>
           <TextInput
             style={styles.input}
@@ -87,9 +65,7 @@ const RegisterPage = () => {
           />
         </View>
 
-        <Pressable style={styles.button} onPress={loginHandler}>
-          <Text style={styles.buttonText}>S'incrire</Text>
-        </Pressable>
+        <MainButton onPressHandler={registerHandler} text={`S'incrire`} />
         <View style={styles.loginContainer}>
           <Text>Déjà membre ?</Text>
           <Link href="/" style={styles.signUpButton}>
@@ -122,27 +98,6 @@ const styles = StyleSheet.create({
     width: '100%',
     gap: 20,
   },
-  socialContainer: {
-    gap: 10,
-  },
-  socialButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-    borderRadius: 5,
-    padding: 10,
-  },
-  socialIcon: {
-    width: 24,
-    height: 24,
-  },
-  socialButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  socialButtonText: {},
   inputController: {
     width: '100%',
     gap: 10,

@@ -20,7 +20,7 @@ const LoginPage = () => {
     console.log('Email:', email);
     console.log('Password:', password);
 
-    router.navigate('/(tabs)/');
+    router.replace('/(tabs)/');
 
     setEmail('');
     setPassword('');
@@ -29,33 +29,14 @@ const LoginPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={PlaceholderImage} style={styles.logo} />
+        <Image
+          source={PlaceholderImage}
+          contentFit="contain"
+          style={styles.logo}
+        />
       </View>
 
       <SafeAreaView style={styles.formContainer}>
-        {/* <View style={styles.socialContainer}>
-          <Pressable style={styles.socialButton}>
-            <View style={styles.socialButtonContainer}>
-              <Text>Continue avec</Text>
-              <Text style={styles.socialButtonText}>Email</Text>
-            </View>
-          </Pressable>
-
-          <Pressable style={[styles.socialButton]}>
-            <View style={styles.socialButtonContainer}>
-              <Text>Continue avec</Text>
-              <Text style={styles.socialButtonText}>Facebook</Text>
-            </View>
-          </Pressable>
-
-          <Pressable style={[styles.socialButton]}>
-            <View style={styles.socialButtonContainer}>
-              <Text>Continue avec</Text>
-              <Text style={styles.socialButtonText}>Google</Text>
-            </View>
-          </Pressable>
-        </View> */}
-
         <View style={styles.inputController}>
           <TextInput
             style={styles.input}
@@ -102,34 +83,12 @@ const styles = StyleSheet.create({
   logo: {
     width: 150,
     height: 150,
-    resizeMode: 'contain',
   },
 
   formContainer: {
     width: '100%',
     gap: 20,
   },
-  socialContainer: {
-    gap: 10,
-  },
-  socialButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-    borderRadius: 5,
-    padding: 10,
-  },
-  socialIcon: {
-    width: 24,
-    height: 24,
-  },
-  socialButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  socialButtonText: {},
   inputController: {
     width: '100%',
     gap: 10,
