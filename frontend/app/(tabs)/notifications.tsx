@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import React from 'react';
 
 export default function notifications() {
   return (
-    <View>
+    <SafeAreaView>
       <Text>notifications</Text>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -68,7 +68,7 @@ const RegisterPage = () => {
         <MainButton onPressHandler={registerHandler} text={`S'incrire`} />
         <View style={styles.loginContainer}>
           <Text>Déjà membre ?</Text>
-          <Link href="/" style={styles.signUpButton}>
+          <Link href="/login" style={styles.signUpButton}>
             Se connecter ici
           </Link>
         </View>
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   formContainer: {
+    flex: 1,
     width: '100%',
     gap: 20,
   },
@@ -110,15 +111,15 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#4FAE5A',
-    width: '100%',
+    flexGrow: 0,
     height: 40,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 15,
   },
   loginContainer: {
     flexDirection: 'row',
-    display: 'flex',
     gap: 3,
     justifyContent: 'center',
   },

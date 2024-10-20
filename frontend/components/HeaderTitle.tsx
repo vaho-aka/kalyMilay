@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-export default function cart() {
+export default function HeaderTitle() {
   return (
     <View>
-      <Text>cart</Text>
+      <Text>HeaderTitle</Text>
     </View>
   );
 }

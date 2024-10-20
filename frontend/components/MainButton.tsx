@@ -22,11 +22,10 @@ export default function MainButton(props: Props) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: '#4FAE5A',
-    width: '100%',
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
+    padding: 16,
   },
   buttonText: {
     color: '#FFFFFF',

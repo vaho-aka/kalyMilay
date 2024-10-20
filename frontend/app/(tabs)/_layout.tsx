@@ -2,6 +2,7 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import RemixIcon from 'rn-remixicon';
+import 'react-native-svg';
 
 const tabArr = [
   {
@@ -45,7 +46,7 @@ export default function RootLayout() {
           key={tab.tabName + i}
           name={tab.tabName}
           options={{
-            headerTitle: tab.tabTitle,
+            headerShown: false,
             tabBarIcon: ({ focused, color }) => (
               <RemixIcon
                 name={focused ? tab.tabIconActive : tab.tabIcon}
@@ -70,5 +71,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingBottom: 0,
     borderTopWidth: 0,
+    backgroundColor: '#1E1E1E',
   },
 });
