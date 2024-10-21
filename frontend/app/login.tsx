@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
 import { Image } from 'expo-image';
@@ -20,7 +20,7 @@ const LoginPage = () => {
     console.log('Email:', email);
     console.log('Password:', password);
 
-    router.replace('/(tabs)/');
+    router.replace('/');
 
     setEmail('');
     setPassword('');

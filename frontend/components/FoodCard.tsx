@@ -9,22 +9,16 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
+import { Link } from 'expo-router';
 
 type Props = {
   title: string;
   description: string;
   price: number;
   rating: number;
-  onPress: () => void;
 };
 
-export default function FoodCard({
-  title,
-  description,
-  price,
-  rating,
-  onPress,
-}: Props) {
+export default function FoodCard({ title, description, price, rating }: Props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [imageError, setImageError] = React.useState(false);
 
@@ -42,61 +36,56 @@ export default function FoodCard({
     return rating.toFixed(1);
   }, [rating]);
 
-  const handlePress = () => {
-    if (onPress) {
-      onPress();
-    }
-  };
-
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={handlePress}
-      accessible={true}
-      accessibilityLabel={`${title}, ${formattedPrice}, Rating ${ratingDisplay} out of 5`}
-      accessibilityRole="button"
-    >
-      <View style={styles.imageContainer}>
-        {isLoading && !imageError && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="small" color="#4FAE5A" />
-          </View>
-        )}
-        <Image
-          source={require('@/assets/images/3.jpg')}
-          style={styles.image}
-          resizeMode="contain"
-          onLoadStart={() => setIsLoading(true)}
-          onLoadEnd={() => setIsLoading(false)}
-          onError={() => {
-            setImageError(true);
-            setIsLoading(false);
-          }}
-        />
-      </View>
+    <Link href={'/details'} asChild>
+      <TouchableOpacity
+        style={styles.container}
+        accessible={true}
+        accessibilityLabel={`${title}, ${formattedPrice}, Rating ${ratingDisplay} out of 5`}
+        accessibilityRole="button"
+      >
+        <View style={styles.imageContainer}>
+          {isLoading && !imageError && (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="small" color="#4FAE5A" />
+            </View>
+          )}
+          <Image
+            source={require('@/assets/images/3.jpg')}
+            style={styles.image}
+            resizeMode="contain"
+            onLoadStart={() => setIsLoading(true)}
+            onLoadEnd={() => setIsLoading(false)}
+            onError={() => {
+              setImageError(true);
+              setIsLoading(false);
+            }}
+          />
+        </View>
 
-      <View style={styles.contentContainer}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.title} numberOfLines={1}>
-            {title}
+        <View style={styles.contentContainer}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.title} numberOfLines={1}>
+              {title}
+            </Text>
+            <View style={styles.ratingContainer}>
+              <MaterialIcons name="star" size={16} color="#FFD700" />
+              <Text style={styles.rating}>{ratingDisplay}</Text>
+            </View>
+          </View>
+
+          <Text style={styles.description} numberOfLines={2}>
+            {description}
           </Text>
-          <View style={styles.ratingContainer}>
-            <MaterialIcons name="star" size={16} color="#FFD700" />
-            <Text style={styles.rating}>{ratingDisplay}</Text>
+
+          <View style={styles.footer}>
+            <View style={styles.priceContainer}>
+              <Text style={styles.price}>{formattedPrice}</Text>
+            </View>
           </View>
         </View>
-
-        <Text style={styles.description} numberOfLines={2}>
-          {description}
-        </Text>
-
-        <View style={styles.footer}>
-          <View style={styles.priceContainer}>
-            <Text style={styles.price}>{formattedPrice}</Text>
-          </View>
-        </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Link>
   );
 }
 

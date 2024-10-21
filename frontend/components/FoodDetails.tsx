@@ -15,21 +15,26 @@ type Props = {
 
 export default function FoodDetails({ onPress }: Props) {
   return (
-    <ScrollView style={styles.container}>
-      <Text>FoodDetails</Text>
+    <View style={styles.container}>
+      <ScrollView style={styles.contentContainer}>
+        <Text>FoodDetails</Text>
+      </ScrollView>
       <TouchableOpacity style={styles.btnContainer} onPress={onPress}>
         <RemixIcon name="shopping-cart2-line" size={30} color="#fff" />
         <Text style={styles.text}>Add To Cart</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    position: 'relative',
+  },
+  contentContainer: {},
   btnContainer: {
     position: 'absolute',
-    bottom: -680,
+    top: 640,
     left: 16,
     right: 16,
     flexDirection: 'row',
