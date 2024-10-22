@@ -30,7 +30,6 @@ export default function RootLayout() {
             headerLeft: () => <></>,
           }}
         />
-        <Stack.Screen name="details" options={{ presentation: 'modal' }} />
       </Stack>
     </>
   );
