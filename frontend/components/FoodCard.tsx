@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ActivityIndicator,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
+import CustomImage from './CustomImage';
 
 type Props = {
   title: string;
@@ -18,6 +12,8 @@ type Props = {
   onPress: () => void;
 };
 
+const PlaceholderImage = require('@/assets/images/3.jpg');
+
 export default function FoodCard({
   title,
   description,
@@ -25,9 +21,6 @@ export default function FoodCard({
   rating,
   onPress,
 }: Props) {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [imageError, setImageError] = React.useState(false);
-
   const formattedPrice = useMemo(() => {
     return new Intl.NumberFormat('fr-MG', {
       style: 'currency',
@@ -48,24 +41,11 @@ export default function FoodCard({
       accessibilityRole="button"
       onPress={onPress}
     >
-      <View style={styles.imageContainer}>
-        {isLoading && !imageError && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="small" color="#4FAE5A" />
-          </View>
-        )}
-        <Image
-          source={require('@/assets/images/3.jpg')}
-          style={styles.image}
-          resizeMode="contain"
-          onLoadStart={() => setIsLoading(true)}
-          onLoadEnd={() => setIsLoading(false)}
-          onError={() => {
-            setImageError(true);
-            setIsLoading(false);
-          }}
-        />
-      </View>
+      <CustomImage
+        source={PlaceholderImage}
+        wrapper={styles.imageContainer}
+        image={styles.image}
+      />
 
       <View style={styles.contentContainer}>
         <View style={styles.headerContainer}>

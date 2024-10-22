@@ -30,6 +30,18 @@ export default function RootLayout() {
             headerLeft: () => <></>,
           }}
         />
+        <Stack.Screen
+          name="settings"
+          options={{
+            headerTitle: 'Modifacation du profile',
+          }}
+        />
+        <Stack.Screen
+          name="transactions"
+          options={{
+            headerTitle: 'Listes des transactions',
+          }}
+        />
       </Stack>
     </>
   );
