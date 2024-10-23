@@ -13,9 +13,13 @@ import RemixIcon from 'rn-remixicon';
 import { Link } from 'expo-router';
 import CustomImage from './CustomImage';
 
+type Props = {
+  onPress: () => void;
+};
+
 const Avatar = require('@/assets/images/Avatar.jpg');
 
-export default function TopNavBar() {
+export default function TopNavBar({ onPress }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -30,7 +34,7 @@ export default function TopNavBar() {
         </Link>
         <Text style={styles.text}>Hi ! Vahoaka</Text>
       </View>
-      <TouchableOpacity style={styles.iconContainer}>
+      <TouchableOpacity style={styles.iconContainer} onPress={onPress}>
         <RemixIcon name="shopping-cart2-line" size={28} color="#fff" />
       </TouchableOpacity>
     </View>

@@ -37,6 +37,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     overflow: 'hidden',
     bottom: 0,
-    padding: 10,
   },
 });

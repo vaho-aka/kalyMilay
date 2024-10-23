@@ -46,7 +46,7 @@ export default function account() {
         </Link>
         <Link href={'/login'} asChild>
           <Pressable style={styles.btn}>
-            <RemixIcon size={32} name="logout-box-line" color="#FF4040" />
+            <RemixIcon size={32} name="logout-box-r-line" color="#FF4040" />
             <Text style={styles.btnText}>Déconnexion</Text>
           </Pressable>
         </Link>

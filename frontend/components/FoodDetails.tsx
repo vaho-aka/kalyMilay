@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import BtnBottom from '@/components/BtnBottom';
 import { MaterialIcons } from '@expo/vector-icons';
 import RemixIcon from 'rn-remixicon';
 
@@ -30,10 +29,6 @@ export default function FoodDetails() {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.imageContainer}>
           <Image source={PlaceholderImage} style={styles.image} />
-          <Text style={styles.label}>
-            Une délicieuse soupe copieuse avec des légumes frais, de la viande
-            tendre et herbes aromatiques, parfaites pour une journée froide.
-          </Text>
         </View>
 
         <View style={styles.overlay}>
@@ -66,9 +61,23 @@ export default function FoodDetails() {
             </View>
           </View>
         </View>
+        <View>
+          <Text style={styles.label}>
+            Une délicieuse soupe copieuse avec des légumes frais, de la viande
+            tendre et herbes aromatiques, parfaites pour une journée froide.
+          </Text>
+        </View>
       </ScrollView>
 
-      <BtnBottom label="Add To Cart" />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.cartBtn}>
+          <RemixIcon name="shopping-cart2-line" size={30} color="#fff" />
+          <Text style={styles.text}>Add To Cart</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.fovoriteBtn}>
+          <RemixIcon name="heart3-line" size={30} color="#fff" />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -76,13 +85,13 @@ export default function FoodDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
   },
   scrollViewContent: {
     gap: 10,
     flex: 1,
   },
   imageContainer: {
-    position: 'relative',
     borderRadius: 10,
     overflow: 'hidden',
   },
@@ -92,14 +101,9 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   label: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    right: 10,
     padding: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#f1f1f1',
     borderRadius: 8,
-    color: '#fff',
     overflow: 'hidden',
   },
   overlay: {
@@ -168,5 +172,33 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 16,
+    zIndex: 2,
+    left: 10,
+    right: 10,
+    flexDirection: 'row',
+    gap: 10,
+  },
+  cartBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center',
+    backgroundColor: '#1E1E1E',
+    padding: 10,
+    borderRadius: 10,
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#fff',
+    fontSize: 24,
+  },
+  fovoriteBtn: {
+    backgroundColor: '#1e1e1e',
+    padding: 10,
+    borderRadius: 10,
   },
 });

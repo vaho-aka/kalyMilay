@@ -2,22 +2,19 @@ import FoodCard from '@/components/FoodCard';
 import TopNavBar from '@/components/TopNavBar';
 import { FoodItem } from '@/constants/type';
 import React, { useState, memo, useCallback } from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { foodItems } from './../../constants/foodData';
 import CustomModal from '@/components/CustomModal';
 import FoodDetails from '@/components/FoodDetails';
+import Cart from '@/components/Cart';
+import { FlashList } from '@shopify/flash-list';
 
 const MemoizedFoodCard = memo(FoodCard);
 
 export default function Index() {
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showFoodModal, setShowFoodModal] = useState<boolean>(false);
+  const [showCartModal, setShowCartModal] = useState<boolean>(false);
 
   const renderItem = useCallback(
     ({ item }: { item: FoodItem }) => (
@@ -26,14 +23,18 @@ export default function Index() {
         description={item.description}
         price={item.price}
         rating={item.rating}
-        onPress={modalHanlder}
+        onPress={foodModalHanlder}
       />
     ),
     []
   );
 
-  const modalHanlder = () => {
-    setShowModal((showModal) => !showModal);
+  const foodModalHanlder = () => {
+    setShowFoodModal((showFoodModal) => !showFoodModal);
+  };
+
+  const cartModalHandler = () => {
+    setShowCartModal((showCartModal) => !showCartModal);
   };
 
   const listHeaderComponent = () => (
@@ -50,26 +51,26 @@ export default function Index() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {showModal && (
+      {(showFoodModal || showCartModal) && (
         <TouchableOpacity
-          onPress={modalHanlder}
+          onPress={foodModalHanlder}
           style={styles.overlay}
         ></TouchableOpacity>
       )}
-      <TopNavBar />
-      <FlatList
+      <TopNavBar onPress={cartModalHandler} />
+      <FlashList
         data={foodItems}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={listHeaderComponent}
         contentContainerStyle={styles.container}
-        initialNumToRender={5}
-        maxToRenderPerBatch={10}
-        windowSize={5}
-        removeClippedSubviews={true}
+        estimatedItemSize={30}
       />
-      <CustomModal onClose={modalHanlder} isVisible={showModal}>
+      <CustomModal onClose={foodModalHanlder} isVisible={showFoodModal}>
         <FoodDetails />
+      </CustomModal>
+      <CustomModal onClose={cartModalHandler} isVisible={showCartModal}>
+        <Cart />
       </CustomModal>
     </SafeAreaView>
   );
@@ -78,8 +79,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    gap: 10,
-    position: 'relative',
   },
   overlay: {
     position: 'absolute',

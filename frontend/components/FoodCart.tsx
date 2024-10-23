@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import CustomImage from './CustomImage';
+import RemixIcon from 'rn-remixicon';
 
 type Props = {
   title: string;
-  description: string;
   price: number;
-  rating: number;
-  onPress?: () => void;
 };
 
 const PlaceholderImage = require('@/assets/images/3.jpg');
 
-export default function FoodCard({
-  title,
-  description,
-  price,
-  rating,
-  onPress,
-}: Props) {
+export default function FoodCart({ title, price }: Props) {
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const increaseQtyHandler = () => {
+    setQuantity((qty) => qty + 1);
+  };
+
+  const decreaseQtyHandler = () => {
+    setQuantity((qty) => (qty === 0 ? qty : qty - 1));
+  };
+
   const formattedPrice = useMemo(() => {
     return new Intl.NumberFormat('fr-MG', {
       style: 'currency',
@@ -29,17 +30,11 @@ export default function FoodCard({
     }).format(price);
   }, [price]);
 
-  const ratingDisplay = useMemo(() => {
-    return rating.toFixed(1);
-  }, [rating]);
-
   return (
     <TouchableOpacity
       style={styles.container}
       accessible={true}
-      accessibilityLabel={`${title}, ${formattedPrice}, Rating ${ratingDisplay} out of 5`}
       accessibilityRole="button"
-      onPress={onPress}
     >
       <CustomImage
         source={PlaceholderImage}
@@ -52,19 +47,20 @@ export default function FoodCard({
           <Text style={styles.title} numberOfLines={1}>
             {title}
           </Text>
-          <View style={styles.ratingContainer}>
-            <MaterialIcons name="star" size={16} color="#FFD700" />
-            <Text style={styles.rating}>{ratingDisplay}</Text>
-          </View>
         </View>
-
-        <Text style={styles.description} numberOfLines={2}>
-          {description}
-        </Text>
 
         <View style={styles.footer}>
           <View style={styles.priceContainer}>
             <Text style={styles.price}>{formattedPrice}</Text>
+          </View>
+          <View style={styles.btnContainer}>
+            <TouchableOpacity style={styles.btn} onPress={decreaseQtyHandler}>
+              <RemixIcon name="subtract-line" color="#1e1e1e" />
+            </TouchableOpacity>
+            <Text style={styles.btnText}>{quantity}</Text>
+            <TouchableOpacity style={styles.btn} onPress={increaseQtyHandler}>
+              <RemixIcon name="add-line" color="#1e1e1e" />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -93,6 +89,26 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     position: 'relative',
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    backgroundColor: '#1e1e1e',
+    borderRadius: 16,
+    padding: 5,
+    alignItems: 'center',
+    width: 100,
+    justifyContent: 'space-between',
+  },
+  btn: {
+    backgroundColor: '#fff',
+    borderRadius: 50,
+  },
+  btnText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   loadingContainer: {
     position: 'absolute',
@@ -126,20 +142,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 8,
   },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF9E6',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 12,
-  },
-  rating: {
-    marginLeft: 4,
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFB800',
-  },
   description: {
     fontSize: 14,
     color: '#666',
@@ -166,8 +168,5 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  buttonPressed: {
-    backgroundColor: '#3d8a48',
   },
 });

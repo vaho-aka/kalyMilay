@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
   },
-
   formContainer: {
     width: '100%',
     gap: 20,

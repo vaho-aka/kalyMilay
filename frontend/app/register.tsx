@@ -32,7 +32,11 @@ const RegisterPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={PlaceholderImage} style={styles.logo} />
+        <Image
+          source={PlaceholderImage}
+          contentFit="contain"
+          style={styles.logo}
+        />
       </View>
 
       <SafeAreaView style={styles.formContainer}>
@@ -95,7 +99,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   formContainer: {
-    flex: 1,
     width: '100%',
     gap: 20,
   },
