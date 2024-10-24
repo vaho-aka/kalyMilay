@@ -19,7 +19,7 @@ export default function FoodCart({ title, price }: Props) {
   };
 
   const decreaseQtyHandler = () => {
-    setQuantity((qty) => (qty === 0 ? qty : qty - 1));
+    setQuantity((qty) => (qty === 1 ? qty : qty - 1));
   };
 
   const formattedPrice = useMemo(() => {
@@ -31,11 +31,7 @@ export default function FoodCart({ title, price }: Props) {
   }, [price]);
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      accessible={true}
-      accessibilityRole="button"
-    >
+    <View style={styles.container} accessible={true} accessibilityRole="button">
       <CustomImage
         source={PlaceholderImage}
         wrapper={styles.imageContainer}
@@ -64,7 +60,7 @@ export default function FoodCart({ title, price }: Props) {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 

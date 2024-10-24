@@ -6,10 +6,6 @@ import FoodCart from './FoodCart';
 export default function Cart() {
   return (
     <View style={styles.container}>
-      <View style={styles.cart}>
-        <Text style={styles.cartText}>Mon panier</Text>
-      </View>
-
       <View style={styles.listContainer}>
         <FoodCart title="Soupe special" price={4000} />
       </View>
@@ -55,19 +51,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f1f1f1',
     gap: 10,
-  },
-  cart: {
-    backgroundColor: '#fff',
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 10,
-    marginHorizontal: 10,
-  },
-  cartText: {
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#1e1e1e',
   },
   listContainer: {
     flex: 1,

@@ -26,7 +26,7 @@ export default function FoodDetails() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <View style={styles.scrollViewContent}>
         <View style={styles.imageContainer}>
           <Image source={PlaceholderImage} style={styles.image} />
         </View>
@@ -67,7 +67,7 @@ export default function FoodDetails() {
             tendre et herbes aromatiques, parfaites pour une journée froide.
           </Text>
         </View>
-      </ScrollView>
+      </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.cartBtn}>
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     gap: 10,
-    flex: 1,
   },
   imageContainer: {
     borderRadius: 10,
