@@ -1,21 +1,27 @@
 import FoodCard from '@/components/FoodCard';
 import TopNavBar from '@/components/TopNavBar';
 import { FoodItem } from '@/constants/type';
-import React, { useState, memo, useCallback, useRef } from 'react';
+import React, { useState, memo, useCallback, useRef, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { foodItems } from './../../constants/foodData';
 import CustomModal, { CustomModalRef } from '@/components/CustomModal';
 import FoodDetails from '@/components/FoodDetails';
 import { FlashList } from '@shopify/flash-list';
 import Cart from '@/components/Cart';
+import { useAppDispatch, useAppSelector } from '@/hooks/useDispatch';
+import { getDishes } from '@/actions/foodActions';
 
 const MemoizedFoodCard = memo(FoodCard);
 
 export default function Index() {
   const detailModalRef = useRef<CustomModalRef>(null);
   const cartModalRef = useRef<CustomModalRef>(null);
-  const [showCartModal, setShowCartModal] = useState<boolean>(false);
+  const { foods } = useAppSelector((state) => state.foods);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getDishes());
+  }, []);
 
   const renderItem = useCallback(
     ({ item }: { item: FoodItem }) => (
@@ -23,7 +29,7 @@ export default function Index() {
         title={item.title}
         description={item.description}
         price={item.price}
-        rating={item.rating}
+        rating={item.ratings}
         onPress={detailsModalHandler}
       />
     ),
@@ -54,9 +60,9 @@ export default function Index() {
     <SafeAreaView style={{ flex: 1 }}>
       <TopNavBar onPress={cartModalHandler} />
       <FlashList
-        data={foodItems}
+        data={foods}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         ListHeaderComponent={listHeaderComponent}
         contentContainerStyle={styles.container}
         estimatedItemSize={30}

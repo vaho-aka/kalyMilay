@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import RemixIcon from 'rn-remixicon';
 
@@ -25,7 +17,7 @@ export default function FoodDetails() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.scrollViewContent}>
         <View style={styles.imageContainer}>
           <Image source={PlaceholderImage} style={styles.image} />
@@ -48,7 +40,7 @@ export default function FoodDetails() {
           >
             <View style={styles.infoContainer}>
               <Text style={styles.price}>24 000 Ar</Text>
-              <Text style={styles.timeText}>• 10 minutes</Text>
+              <Text style={styles.timeText}>• Soupe</Text>
             </View>
             <View style={styles.btnContainer}>
               <TouchableOpacity style={styles.btn} onPress={decreaseQtyHandler}>
@@ -78,7 +70,7 @@ export default function FoodDetails() {
           <RemixIcon name="heart3-line" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

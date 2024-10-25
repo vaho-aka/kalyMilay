@@ -66,7 +66,7 @@ const CustomModal = forwardRef<CustomModalRef, CustomModalProps>(
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
-    backgroundColor: '#f1f1f1',
+    backgroundColor: '#fff',
   },
 });
 
