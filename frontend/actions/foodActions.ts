@@ -1,6 +1,6 @@
 import { foodActions } from '../reducers/foodReducer';
 import { AppThunk } from '@/constants/store';
-import { FoodItem } from '@/constants/type';
+import { FoodItem } from '@/constants/interfaces';
 import apiClient from '@/constants/api';
 
 export const getDishes = (): AppThunk => async (dispatch) => {

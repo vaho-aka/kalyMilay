@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import RemixIcon from 'rn-remixicon';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useAppSelector } from '@/hooks/useDispatch';
+import { getImageUrl } from '@/constants/api';
 
 const PlaceholderImage = require('@/assets/images/3.jpg');
 
 export default function FoodDetails() {
   const [quantity, setQuantity] = useState<number>(0);
+  const { food } = useAppSelector((state) => state.foods);
+
+  const formattedPrice = useMemo(() => {
+    return new Intl.NumberFormat('fr-MG', {
+      style: 'currency',
+      currency: 'MGA',
+      maximumFractionDigits: 0,
+    }).format(food.price);
+  }, [food.price]);
 
   const increaseQtyHandler = () => {
     setQuantity((qty) => qty + 1);
@@ -18,17 +30,20 @@ export default function FoodDetails() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.scrollViewContent}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.imageContainer}>
-          <Image source={PlaceholderImage} style={styles.image} />
+          <Image
+            source={{ uri: getImageUrl(food.image) }}
+            style={styles.image}
+          />
         </View>
 
         <View style={styles.overlay}>
           <View style={styles.rateContainer}>
-            <Text style={styles.foodName}>Soupe Spéciale Complète</Text>
+            <Text style={styles.foodName}>{food.title}</Text>
             <View style={styles.ratingContainer}>
               <MaterialIcons name="star" size={16} color="#FFD700" />
-              <Text style={styles.rating}>4.5</Text>
+              <Text style={styles.rating}>{food.ratings}</Text>
             </View>
           </View>
           <View
@@ -39,8 +54,8 @@ export default function FoodDetails() {
             }}
           >
             <View style={styles.infoContainer}>
-              <Text style={styles.price}>24 000 Ar</Text>
-              <Text style={styles.timeText}>• Soupe</Text>
+              <Text style={styles.price}>{formattedPrice}</Text>
+              <Text style={styles.timeText}>{food.category}</Text>
             </View>
             <View style={styles.btnContainer}>
               <TouchableOpacity style={styles.btn} onPress={decreaseQtyHandler}>
@@ -54,12 +69,9 @@ export default function FoodDetails() {
           </View>
         </View>
         <View>
-          <Text style={styles.label}>
-            Une délicieuse soupe copieuse avec des légumes frais, de la viande
-            tendre et herbes aromatiques, parfaites pour une journée froide.
-          </Text>
+          <Text style={styles.label}>{food.description}</Text>
         </View>
-      </View>
+      </ScrollView>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.cartBtn}>

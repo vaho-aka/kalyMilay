@@ -40,6 +40,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1', mainRoutes);
 
+app.use('/uploads', express.static('uploads'));
+
 app.use(notFound);
 app.use(errorHandler);
 

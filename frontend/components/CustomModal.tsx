@@ -3,12 +3,16 @@ import React, {
   useRef,
   forwardRef,
   useImperativeHandle,
+  useMemo,
 } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, LayoutChangeEvent } from 'react-native';
 import {
   BottomSheetModal,
   BottomSheetView,
   BottomSheetModalProvider,
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetBackgroundProps,
 } from '@gorhom/bottom-sheet';
 
 export type CustomModalRef = {
@@ -17,14 +21,15 @@ export type CustomModalRef = {
 };
 
 type CustomModalProps = {
-  snapPoints?: string[];
   children?: React.ReactNode;
   onChange?: (index: number) => void;
 };
 
 const CustomModal = forwardRef<CustomModalRef, CustomModalProps>(
   (props, ref) => {
-    const { snapPoints = ['80%'], children, onChange } = props;
+    const { children, onChange } = props;
+
+    const snapPoints = useMemo(() => ['80%'], []);
 
     // ref
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -35,7 +40,7 @@ const CustomModal = forwardRef<CustomModalRef, CustomModalProps>(
         bottomSheetModalRef.current?.present();
       },
       dismiss: () => {
-        bottomSheetModalRef.current?.dismiss();
+        bottomSheetModalRef.current?.close();
       },
     }));
 
@@ -47,16 +52,29 @@ const CustomModal = forwardRef<CustomModalRef, CustomModalProps>(
       [onChange]
     );
 
+    const renderBackdrop = useCallback(
+      (props: BottomSheetBackdropProps) => (
+        <BottomSheetBackdrop
+          {...props}
+          disappearsOnIndex={-1}
+          appearsOnIndex={0}
+          opacity={0.6}
+        />
+      ),
+      []
+    );
+
     return (
       <BottomSheetModal
         ref={bottomSheetModalRef}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         enablePanDownToClose
-        index={0}
+        backdropComponent={renderBackdrop}
+        enableDynamicSizing={false}
       >
         <BottomSheetView style={styles.contentContainer}>
-          {children}
+          <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
         </BottomSheetView>
       </BottomSheetModal>
     );
@@ -67,6 +85,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     backgroundColor: '#fff',
+    position: 'relative',
   },
 });
 

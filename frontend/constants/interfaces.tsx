@@ -1,4 +1,4 @@
-export type FoodItem = {
+export interface FoodItem {
   _id: string;
   title: string;
   description: string;
@@ -6,34 +6,34 @@ export type FoodItem = {
   ratings: number;
   category: string;
   image: string;
-};
+}
 
-export type User = {
+export interface User {
   _id: string;
   name: string;
   imageUrl: string;
   email: string;
   password: string;
-};
+}
 
 export interface CartItem {
-  product: FoodItem;
+  foods: FoodItem;
   amount: number;
 }
 
-export type State = {
+export interface State {
   loading: boolean;
   error: string;
-};
+}
 
 export interface UserState extends State {
   userLoggedIn: User;
 }
 
-export type loginType = {
+export interface loginType {
   email: string;
   password: string;
-};
+}
 
 export interface registerType extends loginType {
   username: string;
@@ -41,10 +41,18 @@ export interface registerType extends loginType {
 
 export interface FoodState extends State {
   foods: FoodItem[];
-  product: FoodItem;
+  food: FoodItem;
 }
 
 export interface CartState {
-  items: CartItem[];
+  dishes: CartItem[];
   totalAmount: number;
+}
+
+export interface StorageHookResult<T> {
+  value: T;
+  setValue: (value: T | ((prev: T) => T)) => Promise<void>;
+  removeValue: () => Promise<void>;
+  loading: boolean;
+  error: Error | null;
 }

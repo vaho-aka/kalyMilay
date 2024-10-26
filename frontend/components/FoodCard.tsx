@@ -3,24 +3,33 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import CustomImage from './CustomImage';
+import { getImageUrl } from '@/constants/api';
+import { foodActions } from '@/reducers/foodReducer';
+import { useAppDispatch } from '@/hooks/useDispatch';
 
 type Props = {
+  id: string;
   title: string;
   description: string;
   price: number;
   rating: number;
-  onPress?: () => void;
+  category: string;
+  image: string;
+  onPress: () => void;
 };
 
-const PlaceholderImage = require('@/assets/images/3.jpg');
-
 export default function FoodCard({
+  id,
   title,
   description,
   price,
   rating,
   onPress,
+  image,
+  category,
 }: Props) {
+  const dispatch = useAppDispatch();
+
   const formattedPrice = useMemo(() => {
     return new Intl.NumberFormat('fr-MG', {
       style: 'currency',
@@ -33,16 +42,32 @@ export default function FoodCard({
     return rating.toFixed(1);
   }, [rating]);
 
+  const showFoodDetailsHandler = () => {
+    dispatch(
+      foodActions.GET_FOOD_BY_ID_SUCCESS({
+        _id: id,
+        title,
+        description,
+        price,
+        ratings: rating,
+        image,
+        category,
+      })
+    );
+
+    onPress();
+  };
+
   return (
     <TouchableOpacity
       style={styles.container}
       accessible={true}
       accessibilityLabel={`${title}, ${formattedPrice}, Rating ${ratingDisplay} out of 5`}
       accessibilityRole="button"
-      onPress={onPress}
+      onPress={showFoodDetailsHandler}
     >
       <CustomImage
-        source={PlaceholderImage}
+        source={{ uri: getImageUrl(image) }}
         wrapper={styles.imageContainer}
         image={styles.image}
       />

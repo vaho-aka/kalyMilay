@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { FoodItem, FoodState } from '@/constants/type';
+import { FoodItem, FoodState } from '@/constants/interfaces';
 
 const initialState: FoodState = {
   foods: [],
-  product: {
+  food: {
     _id: '',
     title: '',
     price: 0,
@@ -30,7 +30,7 @@ const foodReducer = createSlice({
     },
     GET_FOOD_BY_ID_SUCCESS(state, action: PayloadAction<FoodItem>) {
       state.loading = false;
-      state.product = action.payload;
+      state.food = action.payload;
       state.error = '';
     },
     GET_FOOD_FAIL(state, action: PayloadAction<string>) {

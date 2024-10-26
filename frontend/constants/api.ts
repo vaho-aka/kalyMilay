@@ -11,9 +11,9 @@ const baseURL = Platform.select({
 
 export const getImageUrl = (imagePath: string) => {
   if (imagePath.startsWith('http')) {
-    return imagePath; // Return as is if it's already a full URL
+    return imagePath;
   }
-  return `${baseURL}${imagePath}`; // Combine base URL with image path
+  return `${baseURL}${imagePath}`;
 };
 
 export const apiClient = axios.create({

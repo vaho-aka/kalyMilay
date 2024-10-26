@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    favorites: [Number],
   },
   { timestamps: true }
 );
