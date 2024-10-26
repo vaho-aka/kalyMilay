@@ -3,14 +3,14 @@ import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import RemixIcon from 'rn-remixicon';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useAppSelector } from '@/hooks/useDispatch';
+import { useAppDispatch, useAppSelector } from '@/hooks/useDispatch';
 import { getImageUrl } from '@/constants/api';
-
-const PlaceholderImage = require('@/assets/images/3.jpg');
+import { cartActions } from '@/reducers/cartReducer';
 
 export default function FoodDetails() {
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
   const { food } = useAppSelector((state) => state.foods);
+  const dispatch = useAppDispatch();
 
   const formattedPrice = useMemo(() => {
     return new Intl.NumberFormat('fr-MG', {
@@ -26,6 +26,10 @@ export default function FoodDetails() {
 
   const decreaseQtyHandler = () => {
     setQuantity((qty) => (qty === 0 ? qty : qty - 1));
+  };
+
+  const addToCartHandler = () => {
+    dispatch(cartActions.ADD_ITEM({ food, amount: quantity }));
   };
 
   return (
@@ -74,7 +78,7 @@ export default function FoodDetails() {
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.cartBtn}>
+        <TouchableOpacity style={styles.cartBtn} onPress={addToCartHandler}>
           <RemixIcon name="shopping-cart2-line" size={30} color="#fff" />
           <Text style={styles.text}>Add To Cart</Text>
         </TouchableOpacity>

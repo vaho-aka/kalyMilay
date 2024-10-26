@@ -1,14 +1,45 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import RemixIcon from 'rn-remixicon';
 import FoodCart from './FoodCart';
+import { CartItem, FoodItem } from '@/constants/interfaces';
+import { useAppSelector } from '@/hooks/useDispatch';
+import { FlashList } from '@shopify/flash-list';
+
+const MemoizedFoodCard = memo(FoodCart);
 
 export default function Cart() {
+  const { dishes, totalAmount } = useAppSelector((state) => state.cart);
+
+  const renderItem = useCallback(({ item }: { item: CartItem }) => {
+    return <MemoizedFoodCard food={item.food} amount={item.amount} />;
+  }, []);
+
+  const formattedPrice = useMemo(() => {
+    return new Intl.NumberFormat('fr-MG', {
+      style: 'currency',
+      currency: 'MGA',
+      maximumFractionDigits: 0,
+    }).format(totalAmount);
+  }, [totalAmount]);
+
+  const formattedTotalPrice = useMemo(() => {
+    return new Intl.NumberFormat('fr-MG', {
+      style: 'currency',
+      currency: 'MGA',
+      maximumFractionDigits: 0,
+    }).format(totalAmount + 3000);
+  }, [totalAmount]);
+
   return (
     <View style={styles.container}>
-      <View style={styles.listContainer}>
-        <FoodCart title="Soupe special" price={4000} />
-      </View>
+      <FlashList
+        data={dishes}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => item.food._id || `loading-${index}`}
+        contentContainerStyle={styles.listContainer}
+        estimatedItemSize={30}
+      />
       <View style={styles.checkoutContainer}>
         <View style={styles.separator}>
           <View
@@ -23,7 +54,7 @@ export default function Cart() {
         <View style={styles.priceContainer}>
           <View style={styles.price}>
             <Text>Prix de la commande</Text>
-            <Text>24 000 Ar</Text>
+            <Text>{formattedPrice}</Text>
           </View>
           <View style={styles.price}>
             <Text>Frais de livraison</Text>
@@ -31,7 +62,7 @@ export default function Cart() {
           </View>
           <View style={styles.price}>
             <Text>Totalité</Text>
-            <Text>27 000 Ar</Text>
+            <Text>{formattedTotalPrice}</Text>
           </View>
         </View>
 
@@ -53,7 +84,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   listContainer: {
-    flex: 1,
     padding: 10,
   },
   checkoutContainer: {

@@ -3,16 +3,16 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useMemo } from 'react';
 import CustomImage from './CustomImage';
 import RemixIcon from 'rn-remixicon';
+import { getImageUrl } from '@/constants/api';
+import { FoodItem } from '@/constants/interfaces';
 
 type Props = {
-  title: string;
-  price: number;
+  amount: number;
+  food: FoodItem;
 };
 
-const PlaceholderImage = require('@/assets/images/3.jpg');
-
-export default function FoodCart({ title, price }: Props) {
-  const [quantity, setQuantity] = useState<number>(1);
+export default function FoodCart({ food, amount }: Props) {
+  const [quantity, setQuantity] = useState<number>(amount);
 
   const increaseQtyHandler = () => {
     setQuantity((qty) => qty + 1);
@@ -27,13 +27,13 @@ export default function FoodCart({ title, price }: Props) {
       style: 'currency',
       currency: 'MGA',
       maximumFractionDigits: 0,
-    }).format(price);
-  }, [price]);
+    }).format(food.price);
+  }, [food.price]);
 
   return (
     <View style={styles.container} accessible={true} accessibilityRole="button">
       <CustomImage
-        source={PlaceholderImage}
+        source={{ uri: getImageUrl(food.image) }}
         wrapper={styles.imageContainer}
         image={styles.image}
       />
@@ -41,7 +41,7 @@ export default function FoodCart({ title, price }: Props) {
       <View style={styles.contentContainer}>
         <View style={styles.headerContainer}>
           <Text style={styles.title} numberOfLines={1}>
-            {title}
+            {food.title}
           </Text>
         </View>
 

@@ -6,6 +6,7 @@ export interface FoodItem {
   ratings: number;
   category: string;
   image: string;
+  quantity: number;
 }
 
 export interface User {
@@ -17,7 +18,7 @@ export interface User {
 }
 
 export interface CartItem {
-  foods: FoodItem;
+  food: FoodItem;
   amount: number;
 }
 
