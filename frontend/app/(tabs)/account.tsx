@@ -15,7 +15,7 @@ import { useAuth } from '@clerk/clerk-expo';
 import Spinner from 'react-native-loading-spinner-overlay'; // If you want to show loading state
 
 export default function Account() {
-  const { signOut, isLoaded, isSignedIn } = useAuth();
+  const { signOut, isSignedIn } = useAuth();
   const [loading, setLoading] = React.useState(false);
 
   const handleSignOut = async () => {

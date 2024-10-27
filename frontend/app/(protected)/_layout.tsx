@@ -23,6 +23,13 @@ export default function ProtectedLayout() {
         name="transactions"
         options={{ headerTitle: 'Listes des transactions' }}
       />
+      <Stack.Screen
+        name="checkout"
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+        }}
+      />
     </Stack>
   );
 }

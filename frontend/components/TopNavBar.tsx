@@ -5,12 +5,15 @@ import RemixIcon from 'rn-remixicon';
 import { Link } from 'expo-router';
 import CustomImage from './CustomImage';
 import { getImageUrl } from '@/constants/api';
+import { useUser } from '@clerk/clerk-expo';
 
 type Props = {
   onPress: () => void;
 };
 
 export default function TopNavBar({ onPress }: Props) {
+  const { user } = useUser();
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -23,7 +26,9 @@ export default function TopNavBar({ onPress }: Props) {
             />
           </TouchableOpacity>
         </Link>
-        <Text style={styles.text}>Hi ! Vahoaka</Text>
+        <Text style={styles.text}>
+          Hi, {user?.emailAddresses[0].emailAddress.split('@')[0]} !
+        </Text>
       </View>
       <TouchableOpacity style={styles.iconContainer} onPress={onPress}>
         <RemixIcon name="shopping-cart2-line" size={28} color="#fff" />
@@ -60,6 +65,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
+    fontSize: 20,
   },
   iconContainer: {
     backgroundColor: '#4FAE5A',

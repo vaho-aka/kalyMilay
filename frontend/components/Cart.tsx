@@ -5,11 +5,15 @@ import FoodCart from './FoodCart';
 import { CartItem, FoodItem } from '@/constants/interfaces';
 import { useAppSelector } from '@/hooks/useDispatch';
 import { FlashList } from '@shopify/flash-list';
+import { useAuth } from '@clerk/clerk-expo';
+import { Link, useRouter } from 'expo-router';
 
 const MemoizedFoodCard = memo(FoodCart);
 
 export default function Cart() {
   const { dishes, totalAmount } = useAppSelector((state) => state.cart);
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
 
   const renderItem = useCallback(({ item }: { item: CartItem }) => {
     return <MemoizedFoodCard food={item.food} amount={item.amount} />;
@@ -30,6 +34,15 @@ export default function Cart() {
       maximumFractionDigits: 0,
     }).format(totalAmount + 2000);
   }, [totalAmount]);
+
+  const handleAction = () => {
+    if (!isSignedIn) {
+      router.push('/(auth)/login');
+      return;
+    }
+    // Proceed with protected action
+    router.replace('/(protected)/checkout');
+  };
 
   return (
     <View style={styles.container}>
@@ -66,12 +79,19 @@ export default function Cart() {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.cartBtn}>
-          <Text style={styles.text}>Commander</Text>
-          <View style={styles.iconContainer}>
-            <RemixIcon name="arrow-right-line" size={30} color="#1e1e1e" />
-          </View>
-        </TouchableOpacity>
+        <Link
+          href={!isSignedIn ? '/(auth)/login' : '/(protected)/checkout'}
+          asChild
+        >
+          <TouchableOpacity style={styles.cartBtn} onPress={handleAction}>
+            <Text style={styles.text}>
+              {isSignedIn ? 'Commander' : 'Se connecter'}
+            </Text>
+            <View style={styles.iconContainer}>
+              <RemixIcon name="arrow-right-line" size={30} color="#1e1e1e" />
+            </View>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );

@@ -40,7 +40,7 @@ const CustomModal = forwardRef<CustomModalRef, CustomModalProps>(
         bottomSheetModalRef.current?.present();
       },
       dismiss: () => {
-        bottomSheetModalRef.current?.close();
+        bottomSheetModalRef.current?.forceClose();
       },
     }));
 
