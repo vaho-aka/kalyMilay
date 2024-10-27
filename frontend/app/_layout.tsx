@@ -34,12 +34,6 @@ function InitialLayout() {
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
   if (!appIsReady) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

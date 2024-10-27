@@ -71,7 +71,21 @@ const cartReducer = createSlice({
         state.dishes = updatedItems;
       }
     },
-    ADD_ITEM_TO_FAVORITES(state, action: PayloadAction<FoodItem>) {},
+    ADD_ITEM_TO_FAVORITES(state, action: PayloadAction<FoodItem>) {
+      const isFavorite = state.favorites.some(
+        (favorite) => favorite._id === action.payload._id
+      );
+
+      if (!isFavorite) {
+        state.favorites.push(action.payload);
+      }
+    },
+
+    REMOVE_ITEM_FROM_FAVORITES(state, action: PayloadAction<string>) {
+      state.favorites = state.favorites.filter(
+        (favorite) => favorite._id !== action.payload
+      );
+    },
   },
 });
 

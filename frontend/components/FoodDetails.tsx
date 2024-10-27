@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import RemixIcon from 'rn-remixicon';
@@ -10,7 +10,9 @@ import { cartActions } from '@/reducers/cartReducer';
 export default function FoodDetails() {
   const [quantity, setQuantity] = useState<number>(1);
   const { food } = useAppSelector((state) => state.foods);
+  const { favorites } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const formattedPrice = useMemo(() => {
     return new Intl.NumberFormat('fr-MG', {
@@ -19,6 +21,10 @@ export default function FoodDetails() {
       maximumFractionDigits: 0,
     }).format(food.price);
   }, [food.price]);
+
+  useEffect(() => {
+    setIsFavorited(favorites.some((favorite) => favorite._id === food._id));
+  }, [favorites, food._id]);
 
   const increaseQtyHandler = () => {
     setQuantity((qty) => (qty < food.quantity ? qty + 1 : qty));
@@ -30,6 +36,20 @@ export default function FoodDetails() {
 
   const addToCartHandler = () => {
     dispatch(cartActions.ADD_ITEM({ food, amount: quantity }));
+  };
+
+  const favoriteFoodHandler = () => {
+    if (!isFavorited) {
+      dispatch(cartActions.ADD_ITEM_TO_FAVORITES(food));
+      setIsFavorited(true);
+    } else {
+      dispatch(cartActions.REMOVE_ITEM_FROM_FAVORITES(food._id));
+      setIsFavorited(false);
+    }
+
+    setIsFavorited(
+      favorites.filter(({ _id }) => _id === food._id) ? true : false
+    );
   };
 
   return (
@@ -83,8 +103,15 @@ export default function FoodDetails() {
           <RemixIcon name="shopping-cart2-line" size={30} color="#fff" />
           <Text style={styles.text}>Add To Cart</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.fovoriteBtn}>
-          <RemixIcon name="heart3-line" size={30} color="#fff" />
+        <TouchableOpacity
+          style={styles.fovoriteBtn}
+          onPress={favoriteFoodHandler}
+        >
+          <RemixIcon
+            name={isFavorited ? 'heart3-fill' : 'heart3-line'}
+            size={30}
+            color="#fff"
+          />
         </TouchableOpacity>
       </View>
     </View>
