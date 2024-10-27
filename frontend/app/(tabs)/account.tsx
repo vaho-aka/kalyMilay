@@ -9,47 +9,75 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomImage from '@/components/CustomImage';
 import RemixIcon from 'rn-remixicon';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { getImageUrl } from '@/constants/api';
+import { useAuth } from '@clerk/clerk-expo';
+import Spinner from 'react-native-loading-spinner-overlay'; // If you want to show loading state
 
-export default function account() {
+export default function Account() {
+  const { signOut, isLoaded, isSignedIn } = useAuth();
+  const [loading, setLoading] = React.useState(false);
+
+  const handleSignOut = async () => {
+    try {
+      setLoading(true);
+      await signOut();
+      // After successful sign out, redirect to public home or login
+      router.replace('/(tabs)');
+    } catch (err) {
+      console.error('Error signing out:', err);
+      alert('Une erreur est survenue lors de la déconnexion');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.userContainer}>
-        <CustomImage
-          source={{ uri: getImageUrl('/api/v1/uploads/users/avatar.jpg') }}
-          wrapper={styles.imageContainer}
-          image={styles.image}
-        />
-        <Text style={styles.text}>Vahoaka</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={[styles.container, !isSignedIn && styles.notSignIn]}>
+      {isSignedIn ? (
+        <>
+          <Spinner visible={loading} />
+          <TouchableOpacity style={styles.userContainer}>
+            <CustomImage
+              source={{ uri: getImageUrl('/api/v1/uploads/users/avatar.jpg') }}
+              wrapper={styles.imageContainer}
+              image={styles.image}
+            />
+            <Text style={styles.text}>Vahoaka</Text>
+          </TouchableOpacity>
 
-      <View style={styles.optionsContainer}>
-        <Link href={'/settings'} asChild>
-          <TouchableOpacity style={styles.optionContainer}>
-            <View style={styles.option}>
-              <RemixIcon size={32} name="user-settings-line" />
-              <Text>Modification du profile</Text>
-            </View>
-            <RemixIcon name="arrow-right-s-line" size={32} />
+          <View style={styles.optionsContainer}>
+            <Link href={'/(protected)/settings'} asChild>
+              <TouchableOpacity style={styles.optionContainer}>
+                <View style={styles.option}>
+                  <RemixIcon size={32} name="user-settings-line" />
+                  <Text>Modification du profile</Text>
+                </View>
+                <RemixIcon name="arrow-right-s-line" size={32} />
+              </TouchableOpacity>
+            </Link>
+            <Link href={'/(protected)/transactions'} asChild>
+              <TouchableOpacity style={styles.optionContainer}>
+                <View style={styles.option}>
+                  <RemixIcon size={32} name="file-list-line" />
+                  <Text>Listes des transactions</Text>
+                </View>
+                <RemixIcon name="arrow-right-s-line" size={32} />
+              </TouchableOpacity>
+            </Link>
+            <Pressable style={styles.btn} onPress={handleSignOut}>
+              <RemixIcon size={32} name="logout-box-r-line" color="#FF4040" />
+              <Text style={styles.btnText}>Déconnexion</Text>
+            </Pressable>
+          </View>
+        </>
+      ) : (
+        <Link href={'/(auth)/login'} asChild>
+          <TouchableOpacity style={styles.loginBtnContainer}>
+            <Text>Se connecter</Text>
           </TouchableOpacity>
         </Link>
-        <Link href={'/transactions'} asChild>
-          <TouchableOpacity style={styles.optionContainer}>
-            <View style={styles.option}>
-              <RemixIcon size={32} name="file-list-line" />
-              <Text>Listes des transactions</Text>
-            </View>
-            <RemixIcon name="arrow-right-s-line" size={32} />
-          </TouchableOpacity>
-        </Link>
-        <Link href={'/login'} asChild>
-          <Pressable style={styles.btn}>
-            <RemixIcon size={32} name="logout-box-r-line" color="#FF4040" />
-            <Text style={styles.btnText}>Déconnexion</Text>
-          </Pressable>
-        </Link>
-      </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -60,6 +88,10 @@ const styles = StyleSheet.create({
     padding: 16,
     flex: 1,
     gap: 10,
+  },
+  notSignIn: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   userContainer: {
     backgroundColor: '#fff',
@@ -128,5 +160,16 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: '#FF4040',
+  },
+  loginBtnContainer: {
+    backgroundColor: '#fff',
+    padding: 10,
+    overflow: 'hidden',
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    width: '100%',
+    justifyContent: 'center',
   },
 });

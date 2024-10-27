@@ -1,33 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Link, router } from 'expo-router';
+import { Link, router, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import MainButton from '@/components/MainButton';
+import { useAuth, useSignIn } from '@clerk/clerk-expo';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const PlaceholderImage = require('@/assets/images/logo.png');
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
+  const { signIn, setActive, isLoaded } = useSignIn();
+
+  const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const loginHandler = () => {
-    // if (email.trim() === '' || password.trim() === '') {
-    //   console.log('Erreur : ', 'Veuillez remplir tous les champs');
-    //   return;
-    // }
+  const onLogInPressHandler = async () => {
+    if (!isLoaded) {
+      return;
+    }
+    setLoading(true);
+    try {
+      const completeSignIn = await signIn.create({
+        identifier: emailAddress,
+        password,
+      });
 
-    console.log('Email:', email);
-    console.log('Password:', password);
-
-    router.replace('/');
-
-    setEmail('');
-    setPassword('');
+      // This indicates the user is signed in
+      await setActive({ session: completeSignIn.createdSessionId });
+    } catch (err: any) {
+      alert(err.errors[0].message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner visible={loading} />
       <View style={styles.logoContainer}>
         <Image
           source={PlaceholderImage}
@@ -36,14 +47,14 @@ const LoginPage = () => {
         />
       </View>
 
-      <SafeAreaView style={styles.formContainer}>
+      <View style={styles.formContainer}>
         <View style={styles.inputController}>
           <TextInput
             style={styles.input}
             placeholder="Adresse email"
             placeholderTextColor="#999"
-            value={email}
-            onChangeText={setEmail}
+            value={emailAddress}
+            onChangeText={setEmailAddress}
             keyboardType="email-address"
             autoCapitalize="none"
           />
@@ -59,11 +70,11 @@ const LoginPage = () => {
           />
         </View>
 
-        <MainButton onPressHandler={loginHandler} text="Se connecter" />
-        <Link href="/register" style={styles.signUpButton}>
+        <MainButton onPressHandler={onLogInPressHandler} text="Se connecter" />
+        <Link href="/(auth)/register" style={styles.signUpButton}>
           Inscription
         </Link>
-      </SafeAreaView>
+      </View>
     </SafeAreaView>
   );
 };

@@ -39,6 +39,7 @@ export default function FoodDetails() {
           <Image
             source={{ uri: getImageUrl(food.image) }}
             style={styles.image}
+            resizeMode="cover"
           />
         </View>
 
@@ -105,7 +106,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 200,
-    resizeMode: 'cover',
   },
   label: {
     padding: 10,

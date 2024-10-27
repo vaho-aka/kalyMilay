@@ -10,13 +10,14 @@ import { FlashList } from '@shopify/flash-list';
 import Cart from '@/components/Cart';
 import { useAppDispatch, useAppSelector } from '@/hooks/useDispatch';
 import { getDishes } from '@/actions/foodActions';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const MemoizedFoodCard = memo(FoodCard);
 
 export default function Index() {
   const detailModalRef = useRef<CustomModalRef>(null);
   const cartModalRef = useRef<CustomModalRef>(null);
-  const { foods } = useAppSelector((state) => state.foods);
+  const { foods, loading } = useAppSelector((state) => state.foods);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -49,6 +50,7 @@ export default function Index() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <Spinner visible={loading} />
       <TopNavBar onPress={cartModalHandler} />
 
       <FlashList
@@ -57,7 +59,7 @@ export default function Index() {
         keyExtractor={(item, index) => item._id || `loading-${index}`}
         ListHeaderComponent={listHeaderComponent}
         contentContainerStyle={styles.container}
-        estimatedItemSize={30}
+        estimatedItemSize={40}
       />
       <CustomModal ref={detailModalRef}>
         <FoodDetails />
