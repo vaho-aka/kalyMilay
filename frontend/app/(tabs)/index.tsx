@@ -16,7 +16,7 @@ const MemoizedFoodCard = memo(FoodCard);
 export default function Index() {
   const detailModalRef = useRef<CustomModalRef>(null);
   const cartModalRef = useRef<CustomModalRef>(null);
-  const { foods, loading: load } = useAppSelector((state) => state.foods);
+  const { foods } = useAppSelector((state) => state.foods);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,18 +24,7 @@ export default function Index() {
   }, []);
 
   const renderItem = useCallback(({ item }: { item: FoodItem }) => {
-    return (
-      <MemoizedFoodCard
-        id={item._id}
-        category={item.category}
-        title={item.title}
-        description={item.description}
-        price={item.price}
-        rating={item.ratings}
-        onPress={detailsModalHandler}
-        image={item.image}
-      />
-    );
+    return <MemoizedFoodCard item={item} onPress={detailsModalHandler} />;
   }, []);
 
   const detailsModalHandler = () => {

@@ -6,28 +6,14 @@ import CustomImage from './CustomImage';
 import { getImageUrl } from '@/constants/api';
 import { foodActions } from '@/reducers/foodReducer';
 import { useAppDispatch } from '@/hooks/useDispatch';
+import { FoodItem } from '@/constants/interfaces';
 
 type Props = {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  rating: number;
-  category: string;
-  image: string;
+  item: FoodItem;
   onPress: () => void;
 };
 
-export default function FoodCard({
-  id,
-  title,
-  description,
-  price,
-  rating,
-  onPress,
-  image,
-  category,
-}: Props) {
+export default function FoodCard({ item, onPress }: Props) {
   const dispatch = useAppDispatch();
 
   const formattedPrice = useMemo(() => {
@@ -35,25 +21,15 @@ export default function FoodCard({
       style: 'currency',
       currency: 'MGA',
       maximumFractionDigits: 0,
-    }).format(price);
-  }, [price]);
+    }).format(item.price);
+  }, [item.price]);
 
   const ratingDisplay = useMemo(() => {
-    return rating.toFixed(1);
-  }, [rating]);
+    return item.ratings.toFixed(1);
+  }, [item.ratings]);
 
   const showFoodDetailsHandler = () => {
-    dispatch(
-      foodActions.GET_FOOD_BY_ID_SUCCESS({
-        _id: id,
-        title,
-        description,
-        price,
-        ratings: rating,
-        image,
-        category,
-      })
-    );
+    dispatch(foodActions.GET_FOOD_BY_ID_SUCCESS(item));
 
     onPress();
   };
@@ -62,12 +38,12 @@ export default function FoodCard({
     <TouchableOpacity
       style={styles.container}
       accessible={true}
-      accessibilityLabel={`${title}, ${formattedPrice}, Rating ${ratingDisplay} out of 5`}
+      accessibilityLabel={`${item.title}, ${formattedPrice}, Rating ${ratingDisplay} out of 5`}
       accessibilityRole="button"
       onPress={showFoodDetailsHandler}
     >
       <CustomImage
-        source={{ uri: getImageUrl(image) }}
+        source={{ uri: getImageUrl(item.image) }}
         wrapper={styles.imageContainer}
         image={styles.image}
       />
@@ -75,7 +51,7 @@ export default function FoodCard({
       <View style={styles.contentContainer}>
         <View style={styles.headerContainer}>
           <Text style={styles.title} numberOfLines={1}>
-            {title}
+            {item.title}
           </Text>
           <View style={styles.ratingContainer}>
             <MaterialIcons name="star" size={16} color="#FFD700" />
@@ -84,7 +60,7 @@ export default function FoodCard({
         </View>
 
         <Text style={styles.description} numberOfLines={2}>
-          {description}
+          {item.description}
         </Text>
 
         <View style={styles.footer}>

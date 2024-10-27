@@ -21,7 +21,7 @@ export default function FoodDetails() {
   }, [food.price]);
 
   const increaseQtyHandler = () => {
-    setQuantity((qty) => qty + 1);
+    setQuantity((qty) => (qty < food.quantity ? qty + 1 : qty));
   };
 
   const decreaseQtyHandler = () => {
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 5,
     alignItems: 'center',
-    width: 100,
+    width: 120,
     justifyContent: 'space-between',
   },
   btn: {

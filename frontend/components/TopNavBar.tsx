@@ -1,23 +1,14 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  ActivityIndicator,
-  Platform,
-} from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
 import 'react-native-svg';
 import RemixIcon from 'rn-remixicon';
 import { Link } from 'expo-router';
 import CustomImage from './CustomImage';
+import { getImageUrl } from '@/constants/api';
 
 type Props = {
   onPress: () => void;
 };
-
-const Avatar = require('@/assets/images/Avatar.jpg');
 
 export default function TopNavBar({ onPress }: Props) {
   return (
@@ -26,7 +17,7 @@ export default function TopNavBar({ onPress }: Props) {
         <Link href={'/(tabs)/account'} asChild>
           <TouchableOpacity>
             <CustomImage
-              source={Avatar}
+              source={{ uri: getImageUrl('/api/v1/uploads/users/avatar.jpg') }}
               wrapper={styles.imageWrapper}
               image={styles.image}
             />

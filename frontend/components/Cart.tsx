@@ -28,7 +28,7 @@ export default function Cart() {
       style: 'currency',
       currency: 'MGA',
       maximumFractionDigits: 0,
-    }).format(totalAmount + 3000);
+    }).format(totalAmount + 2000);
   }, [totalAmount]);
 
   return (
@@ -58,7 +58,7 @@ export default function Cart() {
           </View>
           <View style={styles.price}>
             <Text>Frais de livraison</Text>
-            <Text>3 000 Ar</Text>
+            <Text>2 000 Ar</Text>
           </View>
           <View style={styles.price}>
             <Text>Totalité</Text>

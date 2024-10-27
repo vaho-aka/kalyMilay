@@ -11,6 +11,7 @@ const initialState: FoodState = {
     category: '',
     image: '',
     ratings: 0,
+    quantity: 0,
   },
   loading: false,
   error: '',

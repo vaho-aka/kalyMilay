@@ -5,6 +5,8 @@ import CustomImage from './CustomImage';
 import RemixIcon from 'rn-remixicon';
 import { getImageUrl } from '@/constants/api';
 import { FoodItem } from '@/constants/interfaces';
+import { useAppDispatch } from './../hooks/useDispatch';
+import { cartActions } from '@/reducers/cartReducer';
 
 type Props = {
   amount: number;
@@ -13,13 +15,18 @@ type Props = {
 
 export default function FoodCart({ food, amount }: Props) {
   const [quantity, setQuantity] = useState<number>(amount);
+  const dispatch = useAppDispatch();
 
   const increaseQtyHandler = () => {
-    setQuantity((qty) => qty + 1);
+    setQuantity((qty) => (qty < food.quantity ? qty + 1 : qty));
+
+    dispatch(cartActions.ADD_ITEM({ food, amount: 1 }));
   };
 
   const decreaseQtyHandler = () => {
-    setQuantity((qty) => (qty === 1 ? qty : qty - 1));
+    setQuantity((qty) => qty - 1);
+
+    dispatch(cartActions.REMOVE_ITEM(food._id));
   };
 
   const formattedPrice = useMemo(() => {
@@ -93,7 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 5,
     alignItems: 'center',
-    width: 100,
+    width: 120,
     justifyContent: 'space-between',
   },
   btn: {

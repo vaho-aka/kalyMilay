@@ -48,6 +48,7 @@ export interface FoodState extends State {
 export interface CartState {
   dishes: CartItem[];
   totalAmount: number;
+  favorites: FoodItem[];
 }
 
 export interface StorageHookResult<T> {

@@ -10,15 +10,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomImage from '@/components/CustomImage';
 import RemixIcon from 'rn-remixicon';
 import { Link } from 'expo-router';
-
-const Avatar = require('@/assets/images/Avatar.jpg');
+import { getImageUrl } from '@/constants/api';
 
 export default function account() {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.userContainer}>
         <CustomImage
-          source={Avatar}
+          source={{ uri: getImageUrl('/api/v1/uploads/users/avatar.jpg') }}
           wrapper={styles.imageContainer}
           image={styles.image}
         />

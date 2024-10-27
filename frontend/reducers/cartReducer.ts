@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CartItem, CartState } from '@/constants/interfaces';
+import { CartItem, CartState, FoodItem } from '@/constants/interfaces';
 
 const cartFromStorage: CartState = {
   dishes: [],
   totalAmount: 0,
+  favorites: [],
 };
 
 const cartReducer = createSlice({
@@ -21,7 +22,6 @@ const cartReducer = createSlice({
 
       if (!existItem) {
         state.totalAmount += price * action.payload.amount;
-        // console.log(state.totalAmount);
         state.dishes = [...state.dishes, action.payload];
       } else {
         state.totalAmount -= price * existItem.amount;
@@ -71,6 +71,7 @@ const cartReducer = createSlice({
         state.dishes = updatedItems;
       }
     },
+    ADD_ITEM_TO_FAVORITES(state, action: PayloadAction<FoodItem>) {},
   },
 });
 
