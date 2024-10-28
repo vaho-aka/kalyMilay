@@ -11,11 +11,12 @@ import CustomImage from '@/components/CustomImage';
 import RemixIcon from 'rn-remixicon';
 import { Link, router } from 'expo-router';
 import { getImageUrl } from '@/constants/api';
-import { useAuth } from '@clerk/clerk-expo';
-import Spinner from 'react-native-loading-spinner-overlay'; // If you want to show loading state
+import { useAuth, useUser } from '@clerk/clerk-expo';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function Account() {
   const { signOut, isSignedIn } = useAuth();
+  const { user } = useUser();
   const [loading, setLoading] = React.useState(false);
 
   const handleSignOut = async () => {
@@ -32,6 +33,8 @@ export default function Account() {
     }
   };
 
+  const userName = user?.emailAddresses[0].emailAddress.split('@')[0];
+
   return (
     <SafeAreaView style={[styles.container, !isSignedIn && styles.notSignIn]}>
       {isSignedIn ? (
@@ -43,7 +46,7 @@ export default function Account() {
               wrapper={styles.imageContainer}
               image={styles.image}
             />
-            <Text style={styles.text}>Vahoaka</Text>
+            <Text style={styles.text}>{userName}</Text>
           </TouchableOpacity>
 
           <View style={styles.optionsContainer}>
@@ -106,6 +109,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    borderWidth: 1,
+    borderRadius: 50,
+    overflow: 'hidden',
+    borderColor: '#1e1e1e',
   },
   imageWrapper: {
     position: 'relative',

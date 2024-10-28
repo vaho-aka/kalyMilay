@@ -14,6 +14,8 @@ type Props = {
 export default function TopNavBar({ onPress }: Props) {
   const { user } = useUser();
 
+  const userName = user?.emailAddresses[0].emailAddress.split('@')[0];
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -26,9 +28,7 @@ export default function TopNavBar({ onPress }: Props) {
             />
           </TouchableOpacity>
         </Link>
-        <Text style={styles.text}>
-          Hi, {user?.emailAddresses[0].emailAddress.split('@')[0]} !
-        </Text>
+        <Text style={styles.text}>Hi, {userName} !</Text>
       </View>
       <TouchableOpacity style={styles.iconContainer} onPress={onPress}>
         <RemixIcon name="shopping-cart2-line" size={28} color="#fff" />
@@ -51,6 +51,10 @@ const styles = StyleSheet.create({
     position: 'relative',
     height: 70,
     width: 70,
+    borderWidth: 1,
+    borderRadius: 50,
+    overflow: 'hidden',
+    borderColor: '#1e1e1e',
   },
   image: {
     height: 70,

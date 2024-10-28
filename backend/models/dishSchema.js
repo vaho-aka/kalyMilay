@@ -17,6 +17,7 @@ const dishSchema = new mongoose.Schema({
     required: true,
   },
   ratings: { type: Number },
+  numRatings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 });
 
 const Dish = mongoose.model('Dish', dishSchema);
